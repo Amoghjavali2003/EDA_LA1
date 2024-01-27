@@ -1,0 +1,198 @@
+---
+title: "EDA LA-1 REPORT"
+author: "AMOGH JAVALI USN : 1NT21IS026"
+date: "2024-01-26"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# HOTEL BOOKINGS DEMAND DATASET
+
+## Load a dataset:
+```{r}
+my_data <- read.csv("C:/Users/amogh/Desktop/Dataset/amogh.csv")
+```
+
+## Packages:
+```{r}
+install.packages("base")
+library(base)
+```
+
+## Help and Documentation:
+```{r}
+?mean
+```
+
+## View the first few rows of the dataset:
+```{r}
+head(my_data)
+```
+
+## View the structure of the dataset:
+```{r}
+str(my_data)
+```
+
+
+## Summary statistics:
+```{r}
+summary(my_data)
+```
+
+
+## Basic plot:
+```{r}
+plot(my_data$Adults, my_data$Children)
+```
+
+
+## Histogram:
+```{r}
+hist(my_data$Adults)
+```
+
+## Boxplot:
+```{r}
+boxplot(my_data$Adults)
+```
+
+## Calculate mean:
+```{r}
+mean(my_data$Adults)
+```
+
+## Calculate median:
+```{r}
+median(my_data$Adults)
+
+```
+
+## Data Manipulation:
+## Filter rows based on a condition:
+```{r}
+subset_data <- my_data[my_data$Adults > 100, ]
+head(subset_data, n = 10)
+```
+
+## Create a new variable:
+```{r}
+my_data$new_variable <- my_data$Adults + my_data$Children
+head(my_data$new_variable, n = 10)
+```
+
+## Rename a variable:
+```{r}
+names(my_data)[2] <- "Hotel"
+```
+
+## Remove a variable:
+```{r}
+my_data$Babies <- NULL
+head(my_data, n = 10)
+```
+
+
+## Sort data by a variable:
+```{r}
+my_data <- my_data[order(my_data$Adults), ]
+```
+
+## Data Exploration:
+## Correlation matrix:
+```{r}
+cor(my_data$Adults, my_data$Children)
+```
+
+## Frequency table:
+```{r}
+table_freq <- table(my_data$Adults)
+head(table_freq, n = 50)
+```
+
+## Descriptive statistics by group:
+```{r}
+table_tap <- tapply(my_data$Adults, my_data$Children, summary)
+head(table_tap, n = 10)
+```
+
+## Missing Data Handling:
+## Check for missing values:
+```{r}
+any(is.na(my_data))
+```
+
+## Remove missing values:
+```{r}
+my_data_no_na <- na.omit(my_data)
+```
+
+## Impute missing values:
+```{r}
+my_data$High[is.na(my_data$Adults)] <- mean(my_data$Adults, na.rm = TRUE)
+```
+
+## Statistical Analysis:
+## t-test:
+```{r}
+result <- t.test(my_data$Adults)
+result
+```
+
+## ANOVA:
+```{r}
+anova_model <- aov(Adults ~ Children, data = my_data)
+summary(anova_model)
+```
+
+## Linear Regression:
+```{r}
+lm_model <- lm(Adults ~ Children, data = my_data)
+summary(lm_model)
+```
+
+## Chi-square test:
+```{r}
+chisq.test(table(my_data$Adults, my_data$Children))
+```
+
+## Advanced Visualization:
+## ggplot2 - Scatter plot:
+```{r}
+library(ggplot2)
+ggplot(my_data, aes(x = Adults, y = Children)) +
+  geom_point()
+```
+
+## ggplot2 - Boxplot:
+```{r}
+ggplot(my_data, aes(x = Adults, y = Children)) +
+  geom_boxplot()
+```
+
+## ggplot2 - Histogram:
+```{r}
+ggplot(my_data, aes(x = Adults)) +
+  geom_histogram()
+```
+
+## Time Series Analysis:
+## Convert to time series:
+```{r}
+my_time_series <- ts(my_data$Adults, start = 1, end = length(my_data$Children), frequency = 1)
+head(my_time_series, n = 10) 
+```
+
+## Time series plot:
+```{r}
+plot(my_time_series)
+```
+
+## ARIMA modeling:
+```{r}
+arima_model <- arima(my_time_series, order = c(1,1,1))
+arima_model
+```
